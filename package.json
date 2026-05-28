@@ -2,7 +2,12 @@
     "private": true,
     "type": "module",
     "scripts": {
+        "dev": "vite",
+        "watch": "vite --open",
         "build": "echo \"No Vite build required; Pool School assets are served from public/.\""
     },
-    "devDependencies": {}
+    "devDependencies": {
+        "laravel-vite-plugin": "^1.0.0",
+        "vite": "^5.0.0"
+    }
 }

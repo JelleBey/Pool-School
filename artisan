@@ -1,42 +1,53 @@
 #!/usr/bin/env php
 <?php
 
-$command = $argv[1] ?? '';
+define('LARAVEL_START', microtime(true));
 
-switch ($command) {
-    case 'key:generate':
-        $envPath = __DIR__.'/.env';
-        $env = file_exists($envPath) ? file_get_contents($envPath) : '';
-        $key = 'base64:'.base64_encode(random_bytes(32));
+/*
+|--------------------------------------------------------------------------
+| Register The Auto Loader
+|--------------------------------------------------------------------------
+|
+| Composer provides a convenient, automatically generated class loader
+| for our application. We just need to utilize it! We'll require it
+| into the script here so that we do not have to worry about the
+| loading of any of our classes manually. It's great to relax.
+|
+*/
 
-        if (preg_match('/^APP_KEY=.*/m', $env)) {
-            $env = preg_replace('/^APP_KEY=.*/m', 'APP_KEY='.$key, $env);
-        } else {
-            $env .= PHP_EOL.'APP_KEY='.$key.PHP_EOL;
-        }
+require __DIR__.'/vendor/autoload.php';
 
-        file_put_contents($envPath, $env);
-        echo "Application key set successfully.\n";
-        break;
+$app = require_once __DIR__.'/bootstrap/app.php';
 
-    case 'migrate':
-        echo "Static Pool School site: no migrations to run.\n";
-        break;
+/*
+|--------------------------------------------------------------------------
+| Run The Artisan Application
+|--------------------------------------------------------------------------
+|
+| When we run the console application, the current CLI command will be
+| executed in this console and the response sent back to a terminal
+| or another output device for the developers. Here goes nothing!
+|
+*/
 
-    case 'db:seed':
-        echo "Static Pool School site: no seeders to run.\n";
-        break;
+$kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 
-    case 'storage:link':
-        $target = __DIR__.'/public/storage';
-        if (! is_dir($target)) {
-            mkdir($target, 0775, true);
-        }
-        echo "Storage link ready.\n";
-        break;
+$status = $kernel->handle(
+    $input = new Symfony\Component\Console\Input\ArgvInput,
+    new Symfony\Component\Console\Output\ConsoleOutput
+);
 
-    default:
-        echo "Static Pool School command handled: {$command}\n";
-}
+/*
+|--------------------------------------------------------------------------
+| Shutdown The Application
+|--------------------------------------------------------------------------
+|
+| Once Artisan has finished running, we will fire off the shutdown events
+| so that any final work may be done by the application before we shut
+| down the process. This is the last thing to happen to the request.
+|
+*/
 
-exit(0);
+$kernel->terminate($input, $status);
+
+exit($status);

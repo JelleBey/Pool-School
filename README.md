@@ -1,10 +1,15 @@
 # Pool School
 
-Static Pool School website packaged in a Laravel-style folder layout for the hosting runner.
+Laravel website for Pool School private swimming lessons.
 
 ## Local setup
 
-Serve the `public/` directory with any PHP-capable web server.
+```bash
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan serve
+```
 
 The site exposes these routes:
 
