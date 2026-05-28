@@ -3,263 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pool School — Privé Zwemles</title>
+<title>{{ $title ?? 'Pool School - Prive Zwemles' }}</title>
 <meta name="description" content="Privé zwemles voor kinderen in een warme, veilige omgeving. Groepen van max. 3 kinderen.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --navy:#1B3A6B;--navy-dark:#122850;--navy-light:#2E5299;
-  --red:#D0192A;--red-light:#E84050;
-  --sky:#D6E8F7;--sky-dark:#B8D4EE;--sky-bg:#EAF4FB;
-  --white:#FFFFFF;--off-white:#F7FBFE;
-  --text:#1a2a40;--text-muted:#5a7290;
-  --card-border:rgba(27,58,107,0.12);
-  --radius:14px;--radius-lg:22px;
-  --shadow:0 4px 24px rgba(27,58,107,0.09);
-  --shadow-lg:0 8px 40px rgba(27,58,107,0.14);
-  --transition:0.22s ease;
-}
-html{scroll-behavior:smooth}
-body{font-family:'Nunito',sans-serif;background:var(--sky-bg);color:var(--text);font-size:16px;line-height:1.7;overflow-x:hidden}
-h1,h2,h3,.fredoka{font-family:'Fredoka One',cursive;letter-spacing:0.01em}
-.container{width:100%;max-width:1140px;margin:0 auto;padding:0 24px}
-section{padding:80px 0}
-.btn{display:inline-flex;align-items:center;gap:8px;font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;padding:13px 28px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;transition:transform var(--transition),box-shadow var(--transition),background var(--transition)}
-.btn:hover{transform:translateY(-2px)}
-.btn-primary{background:var(--red);color:var(--white);box-shadow:0 4px 18px rgba(208,25,42,0.3)}
-.btn-primary:hover{background:var(--red-light);box-shadow:0 6px 24px rgba(208,25,42,0.4)}
-.btn-secondary{background:var(--white);color:var(--navy);border:2px solid var(--navy)}
-.btn-secondary:hover{background:var(--sky)}
-.btn-outline-white{background:transparent;color:var(--white);border:2px solid rgba(255,255,255,0.7)}
-.btn-outline-white:hover{background:rgba(255,255,255,0.15)}
-
-/* NAV */
-.navbar{position:sticky;top:0;z-index:100;background:var(--white);border-bottom:1px solid var(--card-border);box-shadow:0 2px 16px rgba(27,58,107,0.07)}
-.nav-inner{display:flex;align-items:center;justify-content:space-between;height:68px}
-.nav-logo{text-decoration:none;font-family:'Fredoka One',cursive;font-size:26px;letter-spacing:1px;line-height:1}
-.logo-pool{color:var(--navy)}.logo-school{color:var(--red);margin-left:4px}
-.nav-links{display:flex;align-items:center;gap:6px;list-style:none}
-.nav-links a{font-weight:700;font-size:15px;color:var(--text);text-decoration:none;padding:7px 14px;border-radius:8px;transition:background var(--transition),color var(--transition)}
-.nav-links a:hover{background:var(--sky);color:var(--navy)}
-.nav-links .btn-nav{background:var(--red);color:var(--white);border-radius:50px;padding:8px 20px}
-.nav-links .btn-nav:hover{background:var(--red-light)}
-.nav-toggle{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
-.nav-toggle span{display:block;width:26px;height:2.5px;background:var(--navy);border-radius:2px;transition:var(--transition)}
-.nav-toggle.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
-.nav-toggle.active span:nth-child(2){opacity:0}
-.nav-toggle.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
-
-/* PAGE ROUTER */
-.page{display:none}.page.active{display:block}
-
-/* HERO */
-.hero{background:linear-gradient(145deg,var(--navy) 0%,var(--navy-light) 100%);padding:100px 0 80px;position:relative;overflow:hidden;color:var(--white)}
-.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 600px 400px at 80% 60%,rgba(214,232,247,0.08) 0%,transparent 70%);pointer-events:none}
-.hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:60px;background:var(--sky-bg);clip-path:ellipse(55% 100% at 50% 100%)}
-.hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;position:relative;z-index:1}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:50px;padding:6px 16px;font-size:13px;font-weight:700;margin-bottom:20px;letter-spacing:0.04em;text-transform:uppercase}
-.badge-dot{width:8px;height:8px;background:#4ade80;border-radius:50%;flex-shrink:0}
-.hero h1{font-size:clamp(40px,6vw,68px);line-height:1.05;margin-bottom:20px}
-.hero h1 .accent{color:#7dd3fc}
-.hero-sub{font-size:18px;opacity:.88;margin-bottom:36px;max-width:480px}
-.hero-ctas{display:flex;gap:14px;flex-wrap:wrap}
-.hero-visual{display:flex;justify-content:center;align-items:center}
-.hero-card-stack{position:relative;width:340px;height:340px}
-.hero-card{position:absolute;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.22);border-radius:var(--radius-lg);backdrop-filter:blur(8px);padding:24px;color:white}
-.hero-card-main{width:280px;top:30px;left:30px;background:rgba(255,255,255,0.18)}
-.hero-card-mini{width:160px;bottom:20px;right:10px;font-size:13px}
-.hero-card-title{font-family:'Fredoka One',cursive;font-size:22px;margin-bottom:12px}
-.hero-pill{display:inline-block;background:rgba(255,255,255,0.2);border-radius:50px;padding:4px 12px;font-size:12px;font-weight:700;margin:3px 2px}
-.hero-stat{font-family:'Fredoka One',cursive;font-size:32px}
-.hero-stat-label{font-size:12px;opacity:.8;margin-top:2px}
-.wave-float{position:absolute;opacity:.07;font-size:120px;pointer-events:none}
-.wave-float-1{top:-20px;right:-20px}.wave-float-2{bottom:0;left:-10px;font-size:80px}
-
-/* NOTICE */
-.notice-banner{background:var(--red);color:var(--white)}
-.notice-inner{display:flex;align-items:stretch}
-.notice-icon-wrap{background:rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;padding:28px 32px;font-size:36px;flex-shrink:0}
-.notice-body{padding:28px 32px;flex:1}
-.notice-body h2{font-family:'Fredoka One',cursive;font-size:22px;margin-bottom:8px}
-.notice-body p{opacity:.92;font-size:15px;max-width:640px}
-.notice-body p+p{margin-top:6px}
-.notice-cta-wrap{display:flex;align-items:center;padding:28px 32px;flex-shrink:0}
-.btn-white{background:var(--white);color:var(--red);font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;padding:12px 24px;border-radius:50px;text-decoration:none;white-space:nowrap;transition:transform var(--transition),box-shadow var(--transition);display:inline-block;cursor:pointer}
-.btn-white:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,0.15)}
-
-/* SECTION */
-.section-label{display:inline-block;font-weight:800;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--red);margin-bottom:10px}
-.section-title{font-family:'Fredoka One',cursive;font-size:clamp(30px,4vw,44px);color:var(--navy);line-height:1.1;margin-bottom:14px}
-.section-sub{font-size:17px;color:var(--text-muted);max-width:560px}
-.section-head{margin-bottom:52px}
-.section-head.center{text-align:center}.section-head.center .section-sub{margin:0 auto}
-
-/* FEATURES */
-.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
-.feature-card{background:var(--white);border:1px solid var(--card-border);border-radius:var(--radius-lg);padding:32px 28px;transition:box-shadow var(--transition),transform var(--transition)}
-.feature-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-4px)}
-.feature-icon{width:56px;height:56px;border-radius:16px;background:var(--sky);display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:18px}
-.feature-card h3{font-family:'Fredoka One',cursive;font-size:21px;color:var(--navy);margin-bottom:10px}
-.feature-card p{color:var(--text-muted);font-size:15px}
-
-/* HOW IT WORKS */
-.how-section{background:var(--navy);color:var(--white)}
-.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:32px}
-.step-item{text-align:center}
-.step-number{width:60px;height:60px;border-radius:50%;background:var(--red);font-family:'Fredoka One',cursive;font-size:26px;color:white;display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
-.step-item h3{font-family:'Fredoka One',cursive;font-size:20px;margin-bottom:8px;color:var(--white)}
-.step-item p{font-size:14px;opacity:.8}
-.how-section .section-title{color:white}.how-section .section-sub{color:rgba(255,255,255,0.75)}.how-section .section-label{color:#7dd3fc}
-
-/* PRICING */
-.pricing-card{background:var(--white);border:2px solid var(--card-border);border-radius:var(--radius-lg);padding:40px;max-width:480px;margin:0 auto;box-shadow:var(--shadow-lg);text-align:center}
-.pricing-amount{font-family:'Fredoka One',cursive;font-size:64px;color:var(--navy);line-height:1;margin:18px 0 6px}
-.pricing-amount sup{font-size:32px;vertical-align:super}
-.pricing-per{color:var(--text-muted);font-size:15px;margin-bottom:20px}
-.pricing-divider{height:1px;background:var(--card-border);margin:24px 0}
-.pricing-list{list-style:none;text-align:left;margin-bottom:30px}
-.pricing-list li{display:flex;align-items:flex-start;gap:10px;font-size:15px;padding:7px 0;border-bottom:1px solid var(--sky)}
-.pricing-list li:last-child{border-bottom:none}
-.check{color:var(--red);font-size:18px;flex-shrink:0;margin-top:1px}
-.pricing-note{font-size:13px;color:var(--text-muted);margin-top:16px;font-style:italic}
-.pricing-badge{display:inline-block;background:var(--sky);color:var(--navy);font-size:13px;font-weight:800;padding:5px 16px;border-radius:50px;margin-bottom:12px}
-
-/* CTA SECTION */
-.cta-section{background:linear-gradient(135deg,var(--red) 0%,#a0101f 100%);color:var(--white);text-align:center;padding:90px 0}
-.cta-section .section-title{color:white;font-size:clamp(28px,4vw,46px)}
-.cta-section p{opacity:.9;max-width:520px;margin:0 auto 36px;font-size:17px}
-
-/* ABOUT */
-.about-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:72px;align-items:center}
-.about-img-bg{width:100%;aspect-ratio:4/5;border-radius:var(--radius-lg);background:linear-gradient(145deg,var(--sky),var(--sky-dark));display:flex;align-items:center;justify-content:center;font-size:80px}
-.about-img-wrap{position:relative}
-.about-chip{position:absolute;bottom:-18px;right:-18px;background:var(--white);border-radius:var(--radius);padding:16px 22px;box-shadow:var(--shadow-lg);text-align:center}
-.about-chip .chip-num{font-family:'Fredoka One',cursive;font-size:32px;color:var(--red);line-height:1}
-.about-chip .chip-label{font-size:12px;color:var(--text-muted);font-weight:700;margin-top:2px}
-.values-list{list-style:none;margin-top:24px}
-.values-list li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--sky)}
-.values-list li:last-child{border-bottom:none}
-.val-icon{font-size:22px;flex-shrink:0}
-.val-title{font-weight:800;font-size:15px;color:var(--navy)}
-.val-desc{font-size:14px;color:var(--text-muted);margin-top:2px}
-
-/* PAGE HERO */
-.page-hero{background:linear-gradient(145deg,var(--navy),var(--navy-light));color:white;padding:70px 0 90px;text-align:center;position:relative;overflow:hidden}
-.page-hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:55px;background:var(--sky-bg);clip-path:ellipse(55% 100% at 50% 100%)}
-.page-hero h1{font-size:clamp(36px,5vw,54px);margin-bottom:12px}
-.page-hero p{font-size:18px;opacity:.85;max-width:500px;margin:0 auto}
-.page-hero .section-label{color:#7dd3fc}
-
-/* INFO CARDS */
-.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
-.info-card{background:var(--white);border:1px solid var(--card-border);border-radius:var(--radius-lg);padding:30px 26px;transition:box-shadow var(--transition),transform var(--transition)}
-.info-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px)}
-.info-card-icon{font-size:38px;margin-bottom:14px}
-.info-card h3{font-family:'Fredoka One',cursive;color:var(--navy);font-size:20px;margin-bottom:8px}
-.info-card p{font-size:14px;color:var(--text-muted)}
-.info-card strong{color:var(--text)}
-
-/* FAQ */
-.faq-item{border:1px solid var(--card-border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;background:var(--white)}
-.faq-question{width:100%;background:none;border:none;display:flex;justify-content:space-between;align-items:center;padding:20px 24px;font-family:'Nunito',sans-serif;font-weight:800;font-size:16px;color:var(--navy);cursor:pointer;text-align:left;gap:16px}
-.faq-arrow{font-size:20px;transition:transform var(--transition);flex-shrink:0;color:var(--red)}
-.faq-item.open .faq-arrow{transform:rotate(180deg)}
-.faq-answer{display:none;padding:0 24px 20px;font-size:15px;color:var(--text-muted);line-height:1.7;border-top:1px solid var(--sky)}
-.faq-item.open .faq-answer{display:block}
-
-/* CONTACT */
-.contact-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:60px;align-items:start}
-.contact-info-item{display:flex;gap:16px;align-items:flex-start;margin-bottom:28px}
-.contact-info-icon{width:48px;height:48px;background:var(--sky);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
-.contact-info-text h4{font-weight:800;color:var(--navy);margin-bottom:2px}
-.contact-info-text p,.contact-info-text a{font-size:15px;color:var(--text-muted);text-decoration:none}
-.contact-info-text a:hover{color:var(--navy)}
-.contact-form{background:var(--white);border:1px solid var(--card-border);border-radius:var(--radius-lg);padding:40px;box-shadow:var(--shadow)}
-.form-group{margin-bottom:20px}
-.form-group label{display:block;font-weight:700;font-size:14px;color:var(--navy);margin-bottom:6px}
-.form-group input,.form-group textarea,.form-group select{width:100%;padding:12px 16px;border:1.5px solid var(--card-border);border-radius:10px;font-family:'Nunito',sans-serif;font-size:15px;color:var(--text);background:var(--off-white);transition:border-color var(--transition),box-shadow var(--transition);outline:none}
-.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--navy-light);box-shadow:0 0 0 3px rgba(46,82,153,0.1);background:white}
-.form-group textarea{resize:vertical;min-height:120px}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-
-/* ENROLL */
-.enroll-card{max-width:700px;margin:0 auto;background:var(--white);border-radius:var(--radius-lg);padding:52px 48px;box-shadow:var(--shadow-lg);border:1px solid var(--card-border);text-align:center}
-.enroll-icon{font-size:64px;margin-bottom:20px;display:block}
-.enroll-card h1{font-family:'Fredoka One',cursive;font-size:36px;color:var(--navy);margin-bottom:14px}
-.enroll-card .lead{font-size:17px;color:var(--text-muted);margin-bottom:28px;max-width:520px;margin-left:auto;margin-right:auto}
-.alert-waitlist{background:#fff8f8;border:1.5px solid rgba(208,25,42,0.25);border-radius:var(--radius);padding:20px 24px;margin-bottom:28px;text-align:left;font-size:15px;color:var(--text)}
-.alert-waitlist strong{color:var(--red)}
-.enroll-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:32px 0;text-align:center}
-.enroll-step-num{width:40px;height:40px;border-radius:50%;background:var(--sky);color:var(--navy);font-family:'Fredoka One',cursive;font-size:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px}
-.enroll-step p{font-size:13px;color:var(--text-muted)}
-.enroll-step strong{display:block;font-size:14px;color:var(--navy);margin-bottom:4px}
-.enroll-divider{height:1px;background:var(--sky-dark);margin:28px 0}
-.signature{font-family:'Fredoka One',cursive;font-size:22px;color:var(--red)}
-
-/* FOOTER */
-.footer{background:var(--navy-dark);color:rgba(255,255,255,0.85);padding:60px 0 0}
-.footer-inner{display:grid;grid-template-columns:1.8fr 1fr 1.3fr;gap:48px;padding-bottom:48px;border-bottom:1px solid rgba(255,255,255,0.1)}
-.footer-logo{display:block;margin-bottom:6px}
-.footer-logo .logo-pool{font-size:30px;color:var(--white)}
-.footer-logo .logo-school{font-size:30px;color:#f87171}
-.footer-tagline{font-weight:800;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:14px}
-.footer-sub{font-size:14px;opacity:.65;line-height:1.7}
-.footer h4{font-weight:800;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:18px}
-.footer-links ul{list-style:none}
-.footer-links li{margin-bottom:10px}
-.footer-links a,.footer-contact a{color:rgba(255,255,255,0.75);text-decoration:none;font-size:14px;transition:color var(--transition)}
-.footer-links a:hover,.footer-contact a:hover{color:white}
-.footer-contact p{font-size:14px;margin-bottom:16px}
-.footer-social{display:flex;gap:12px}
-.footer-social a{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.75);transition:background var(--transition),color var(--transition)}
-.footer-social a:hover{background:var(--red);color:white}
-.footer-bottom{padding:20px 24px;text-align:center;font-size:13px;color:rgba(255,255,255,0.35)}
-
-@media(max-width:960px){
-  .hero-inner{grid-template-columns:1fr}.hero-visual{display:none}
-  .about-grid{grid-template-columns:1fr}
-  .about-img-wrap{max-width:380px;margin:0 auto}
-  .contact-grid{grid-template-columns:1fr}
-  .footer-inner{grid-template-columns:1fr 1fr}
-  .notice-inner{flex-direction:column}
-  .notice-icon-wrap{padding:20px 24px}
-  .notice-cta-wrap{padding:0 24px 24px}
-  .enroll-steps{grid-template-columns:1fr}
-  .enroll-card{padding:36px 28px}
-}
-@media(max-width:640px){
-  section{padding:56px 0}
-  .nav-toggle{display:flex}
-  .nav-links{position:fixed;top:68px;left:0;right:0;bottom:0;background:white;flex-direction:column;align-items:flex-start;padding:24px;gap:4px;transform:translateX(100%);transition:transform var(--transition);z-index:99}
-  .nav-links.open{transform:translateX(0)}
-  .nav-links a{width:100%;font-size:17px;padding:12px 16px}
-  .nav-links .btn-nav{margin-top:8px}
-  .hero{padding:64px 0 60px}
-  .footer-inner{grid-template-columns:1fr;gap:32px}
-  .form-row{grid-template-columns:1fr}
-  .pricing-card{padding:28px 20px}
-}
-</style>
+<link rel="stylesheet" href="{{ asset('css/poolschool-app.css') }}">
 </head>
 <body>
 
 <nav class="navbar">
   <div class="container nav-inner">
-    <a href="#" class="nav-logo" onclick="showPage('home');return false;">
+    <a href="{{ route('home') }}" class="nav-logo">
       <span class="logo-pool">POOL</span><span class="logo-school">SCHOOL</span>
     </a>
     <button class="nav-toggle" id="navToggle" aria-label="Menu openen">
       <span></span><span></span><span></span>
     </button>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#" onclick="showPage('home');return false;">Home</a></li>
-      <li><a href="#" onclick="showPage('lessen');return false;">De Lessen</a></li>
-      <li><a href="#" onclick="showPage('over');return false;">Over Mij</a></li>
-      <li><a href="#" onclick="showPage('contact');return false;">Contact</a></li>
-      <li><a href="#" onclick="showPage('inschrijven');return false;" class="btn-nav">Inschrijven</a></li>
+      <li><a href="{{ route('home') }}">Home</a></li>
+      <li><a href="{{ route('lessen') }}">De Lessen</a></li>
+      <li><a href="{{ route('over') }}">Over Mij</a></li>
+      <li><a href="{{ route('contact') }}">Contact</a></li>
+      <li><a href="{{ route('inschrijven') }}" class="btn-nav">Inschrijven</a></li>
     </ul>
   </div>
 </nav>
@@ -267,7 +33,7 @@ section{padding:80px 0}
 <main>
 
 <!-- ═══════════════════════════════════════════ HOME PAGE -->
-<div id="page-home" class="page active">
+<div id="page-home" class="page {{ $activePage === 'home' ? 'active' : '' }}">
 
   <section class="hero">
     <div class="container hero-inner">
@@ -276,8 +42,8 @@ section{padding:80px 0}
         <h1>Leer zwemmen<br>met <span class="accent">plezier</span> &amp;<br>vertrouwen</h1>
         <p class="hero-sub">Pool School biedt warme, persoonlijke zwemlessen voor kinderen in groepen van maximaal 3. Elk kind verdient een veilige, zorgeloze start in het water.</p>
         <div class="hero-ctas">
-          <a href="#" onclick="showPage('inschrijven');return false;" class="btn btn-primary">📋 Schrijf je in op de wachtlijst</a>
-          <a href="#" onclick="showPage('lessen');return false;" class="btn btn-outline-white">Meer over de lessen</a>
+          <a href="{{ route('inschrijven') }}" class="btn btn-primary">📋 Schrijf je in op de wachtlijst</a>
+          <a href="{{ route('lessen') }}" class="btn btn-outline-white">Meer over de lessen</a>
         </div>
       </div>
       <div class="hero-visual">
@@ -309,7 +75,7 @@ section{padding:80px 0}
           <p>Schrijf je in op de wachtlijst en Stephanie brengt je via e-mail op de hoogte van zodra er een plaatsje vrijkomt.</p>
         </div>
         <div class="notice-cta-wrap">
-          <a href="#" onclick="showPage('inschrijven');return false;" class="btn-white">Wachtlijst →</a>
+          <a href="{{ route('inschrijven') }}" class="btn-white">Wachtlijst →</a>
         </div>
       </div>
     </div>
@@ -369,7 +135,7 @@ section{padding:80px 0}
           <li><span class="check">✔</span> Online agenda — kies zelf je tijdstippen</li>
           <li><span class="check">✔</span> Begeleiding op maat van elk kind</li>
         </ul>
-        <a href="#" onclick="showPage('inschrijven');return false;" class="btn btn-primary" style="width:100%;justify-content:center;">📋 Schrijf je in op de wachtlijst</a>
+        <a href="{{ route('inschrijven') }}" class="btn btn-primary" style="width:100%;justify-content:center;">📋 Schrijf je in op de wachtlijst</a>
         <p class="pricing-note">De lessen zijn momenteel volzet. Via de wachtlijst word je als eerste verwittigd bij beschikbare plaatsen.</p>
       </div>
     </div>
@@ -381,15 +147,15 @@ section{padding:80px 0}
       <h2 class="section-title">Geef jouw kind de gave<br>om te zwemmen</h2>
       <p>Schrijf je vandaag in op de wachtlijst. Stephanie brengt je persoonlijk op de hoogte zodra er een plaatsje beschikbaar is.</p>
       <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
-        <a href="#" onclick="showPage('inschrijven');return false;" class="btn btn-primary" style="background:white;color:var(--red)">📋 Schrijf je in</a>
-        <a href="#" onclick="showPage('contact');return false;" class="btn btn-outline-white">Stel een vraag</a>
+        <a href="{{ route('inschrijven') }}" class="btn btn-primary" style="background:white;color:var(--red)">📋 Schrijf je in</a>
+        <a href="{{ route('contact') }}" class="btn btn-outline-white">Stel een vraag</a>
       </div>
     </div>
   </section>
 </div>
 
 <!-- ═══════════════════════════════════════════ LESSEN PAGE -->
-<div id="page-lessen" class="page">
+<div id="page-lessen" class="page {{ $activePage === 'lessen' ? 'active' : '' }}">
   <div class="page-hero">
     <div class="container">
       <span class="section-label">Pool School</span>
@@ -437,13 +203,13 @@ section{padding:80px 0}
     <div class="container">
       <h2 class="section-title">Klaar om te starten?</h2>
       <p>De lessen zijn momenteel volzet, maar schrijf je in op de wachtlijst. Je bent als eerste aan de beurt!</p>
-      <a href="#" onclick="showPage('inschrijven');return false;" class="btn btn-primary" style="background:white;color:var(--red)">📋 Schrijf je in op de wachtlijst</a>
+      <a href="{{ route('inschrijven') }}" class="btn btn-primary" style="background:white;color:var(--red)">📋 Schrijf je in op de wachtlijst</a>
     </div>
   </section>
 </div>
 
 <!-- ═══════════════════════════════════════════ OVER PAGE -->
-<div id="page-over" class="page">
+<div id="page-over" class="page {{ $activePage === 'over' ? 'active' : '' }}">
   <div class="page-hero">
     <div class="container">
       <span class="section-label">Pool School</span>
@@ -486,14 +252,14 @@ section{padding:80px 0}
           <p style="font-size:16px;line-height:1.8;color:var(--text);margin-bottom:20px">Van zodra ik meer zicht heb op beschikbare plaatsen, breng ik je via e-mail op de hoogte."</p>
           <div class="signature">Veel liefs, Stephanie 💙</div>
         </div>
-        <div style="margin-top:32px"><a href="#" onclick="showPage('inschrijven');return false;" class="btn btn-primary">📋 Schrijf je in op de wachtlijst</a></div>
+        <div style="margin-top:32px"><a href="{{ route('inschrijven') }}" class="btn btn-primary">📋 Schrijf je in op de wachtlijst</a></div>
       </div>
     </div>
   </section>
 </div>
 
 <!-- ═══════════════════════════════════════════ CONTACT PAGE -->
-<div id="page-contact" class="page">
+<div id="page-contact" class="page {{ $activePage === 'contact' ? 'active' : '' }}">
   <div class="page-hero">
     <div class="container">
       <span class="section-label">Neem contact op</span>
@@ -518,7 +284,7 @@ section{padding:80px 0}
           </div>
           <div class="contact-info-item">
             <div class="contact-info-icon">📋</div>
-            <div class="contact-info-text"><h4>Wachtlijst</h4><p>De lessen zijn momenteel volzet.</p><a href="#" onclick="showPage('inschrijven');return false;" style="color:var(--red);font-weight:800">→ Schrijf je in op de wachtlijst</a></div>
+            <div class="contact-info-text"><h4>Wachtlijst</h4><p>De lessen zijn momenteel volzet.</p><a href="{{ route('inschrijven') }}" style="color:var(--red);font-weight:800">→ Schrijf je in op de wachtlijst</a></div>
           </div>
           <div class="contact-info-item">
             <div class="contact-info-icon">📍</div>
@@ -527,22 +293,29 @@ section{padding:80px 0}
         </div>
         <div class="contact-form">
           <h3 style="font-family:'Fredoka One',cursive;font-size:24px;color:var(--navy);margin-bottom:24px">Stuur een bericht</h3>
-          <div id="form-success" style="display:none;background:#f0fff4;border:1.5px solid #86efac;border-radius:10px;padding:16px 20px;margin-bottom:20px;color:#166534;font-weight:700">✅ Bedankt voor je bericht! Stephanie neemt spoedig contact met je op.</div>
-          <div class="form-row">
-            <div class="form-group"><label>Voornaam</label><input type="text" placeholder="Jouw voornaam"></div>
-            <div class="form-group"><label>Achternaam</label><input type="text" placeholder="Jouw achternaam"></div>
-          </div>
-          <div class="form-group"><label>E-mailadres</label><input type="email" placeholder="jouw@email.be"></div>
-          <div class="form-group"><label>Onderwerp</label>
-            <select>
-              <option>Vraag over de wachtlijst</option>
-              <option>Vraag over de lessen</option>
-              <option>Vraag over prijzen</option>
-              <option>Andere</option>
-            </select>
-          </div>
-          <div class="form-group"><label>Bericht</label><textarea placeholder="Stel hier jouw vraag..."></textarea></div>
-          <button onclick="submitForm()" class="btn btn-primary" style="width:100%;justify-content:center">Verstuur bericht ✉️</button>
+          @if (session('success'))
+            <div class="form-success">{{ session('success') }}</div>
+          @endif
+          @if ($errors->any())
+            <div class="form-errors">Controleer de velden en probeer opnieuw.</div>
+          @endif
+          <form method="POST" action="{{ route('contact.verstuur') }}">
+            @csrf
+            <div class="form-row">
+              <div class="form-group"><label for="voornaam">Voornaam</label><input id="voornaam" name="voornaam" type="text" value="{{ old('voornaam') }}" placeholder="Jouw voornaam" required></div>
+              <div class="form-group"><label for="achternaam">Achternaam</label><input id="achternaam" name="achternaam" type="text" value="{{ old('achternaam') }}" placeholder="Jouw achternaam" required></div>
+            </div>
+            <div class="form-group"><label for="email">E-mailadres</label><input id="email" name="email" type="email" value="{{ old('email') }}" placeholder="jouw@email.be" required></div>
+            <div class="form-group"><label for="onderwerp">Onderwerp</label>
+              <select id="onderwerp" name="onderwerp" required>
+                @foreach (['Vraag over de wachtlijst', 'Vraag over de lessen', 'Vraag over prijzen', 'Andere'] as $subject)
+                  <option value="{{ $subject }}" @selected(old('onderwerp') === $subject)>{{ $subject }}</option>
+                @endforeach
+              </select>
+            </div>
+            <div class="form-group"><label for="bericht">Bericht</label><textarea id="bericht" name="bericht" placeholder="Stel hier jouw vraag..." required>{{ old('bericht') }}</textarea></div>
+            <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Verstuur bericht</button>
+          </form>
         </div>
       </div>
     </div>
@@ -550,7 +323,7 @@ section{padding:80px 0}
 </div>
 
 <!-- ═══════════════════════════════════════════ INSCHRIJVEN PAGE -->
-<div id="page-inschrijven" class="page">
+<div id="page-inschrijven" class="page {{ $activePage === 'inschrijven' ? 'active' : '' }}">
   <div class="page-hero">
     <div class="container">
       <span class="section-label">Inschrijven</span>
@@ -600,7 +373,7 @@ section{padding:80px 0}
 <footer class="footer">
   <div class="container footer-inner">
     <div class="footer-brand">
-      <a href="#" onclick="showPage('home');return false;" class="footer-logo">
+      <a href="{{ route('home') }}" class="footer-logo">
         <span class="logo-pool">POOL</span><span class="logo-school">SCHOOL</span>
       </a>
       <p class="footer-tagline">Privé Zwemles</p>
@@ -609,10 +382,10 @@ section{padding:80px 0}
     <div class="footer-links">
       <h4>Pagina's</h4>
       <ul>
-        <li><a href="#" onclick="showPage('home');return false;">Home</a></li>
-        <li><a href="#" onclick="showPage('lessen');return false;">De Lessen</a></li>
-        <li><a href="#" onclick="showPage('over');return false;">Over Mij</a></li>
-        <li><a href="#" onclick="showPage('contact');return false;">Contact</a></li>
+        <li><a href="{{ route('home') }}">Home</a></li>
+        <li><a href="{{ route('lessen') }}">De Lessen</a></li>
+        <li><a href="{{ route('over') }}">Over Mij</a></li>
+        <li><a href="{{ route('contact') }}">Contact</a></li>
       </ul>
     </div>
     <div class="footer-contact">
@@ -631,32 +404,6 @@ section{padding:80px 0}
   <div class="footer-bottom"><p>&copy; 2025 Pool School — Privé Zwemles. Alle rechten voorbehouden.</p></div>
 </footer>
 
-<script>
-function showPage(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('active');
-  window.scrollTo({top: 0, behavior: 'smooth'});
-  document.getElementById('navLinks').classList.remove('open');
-  document.getElementById('navToggle').classList.remove('active');
-}
-
-document.getElementById('navToggle').addEventListener('click', function() {
-  document.getElementById('navLinks').classList.toggle('open');
-  this.classList.toggle('active');
-});
-
-document.querySelectorAll('.faq-question').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const item = btn.closest('.faq-item');
-    const isOpen = item.classList.contains('open');
-    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-    if (!isOpen) item.classList.add('open');
-  });
-});
-
-function submitForm() {
-  document.getElementById('form-success').style.display = 'block';
-}
-</script>
+<script src="{{ asset('js/poolschool-app.js') }}"></script>
 </body>
 </html>
