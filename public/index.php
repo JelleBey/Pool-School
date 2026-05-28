@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $path === '/contact/verstuur') {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/poolschool-app.css">
+<link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
@@ -439,6 +439,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $path === '/contact/verstuur') {
   <div class="footer-bottom"><p>&copy; 2025 Pool School — Privé Zwemles. Alle rechten voorbehouden.</p></div>
 </footer>
 
-<script src="/js/poolschool-app.js"></script>
+<script>
+document.getElementById('navToggle').addEventListener('click', function() {
+  document.getElementById('navLinks').classList.toggle('open');
+  this.classList.toggle('active');
+});
+
+document.querySelectorAll('.faq-question').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  });
+});
+
+</script>
 </body>
 </html>
