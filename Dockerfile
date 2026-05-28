@@ -14,7 +14,7 @@ RUN composer install \
 COPY . .
 RUN composer dump-autoload --no-dev --optimize
 
-FROM php:8.4-apache
+FROM php:8.2-apache
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
