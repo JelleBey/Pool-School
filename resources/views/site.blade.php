@@ -1,66 +1,31 @@
-<?php
-$path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
-$pageMap = [
-    '/' => ['home', 'Pool School - Prive Zwemles'],
-    '/home' => ['home', 'Pool School - Prive Zwemles'],
-    '/lessen' => ['lessen', 'De Lessen - Pool School'],
-    '/over' => ['over', 'Over Mij - Pool School'],
-    '/contact' => ['contact', 'Contact - Pool School'],
-    '/inschrijven' => ['inschrijven', 'Inschrijven - Pool School'],
-];
-$success = false;
-$hasErrors = false;
-$old = [];
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $path === '/contact/verstuur') {
-    $old = array_map('trim', $_POST);
-    $required = ['voornaam', 'achternaam', 'email', 'onderwerp', 'bericht'];
-    foreach ($required as $field) {
-        if (($old[$field] ?? '') === '') {
-            $hasErrors = true;
-        }
-    }
-    if (!filter_var($old['email'] ?? '', FILTER_VALIDATE_EMAIL)) {
-        $hasErrors = true;
-    }
-    $success = !$hasErrors;
-    [$activePage, $title] = $pageMap['/contact'];
-} else {
-    if (!isset($pageMap[$path])) {
-        http_response_code(404);
-        [$activePage, $title] = $pageMap['/'];
-    } else {
-        [$activePage, $title] = $pageMap[$path];
-    }
-}
-?>
 <!DOCTYPE html>
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title><?php echo htmlspecialchars($title, ENT_QUOTES, 'UTF-8'); ?></title>
+<title>{{ $title ?? 'Pool School - Prive Zwemles' }}</title>
 <meta name="description" content="Privé zwemles voor kinderen in een warme, veilige omgeving. Groepen van max. 3 kinderen.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/poolschool-app.css">
+<link rel="stylesheet" href="{{ asset('css/poolschool-app.css') }}">
 </head>
 <body>
 
 <nav class="navbar">
   <div class="container nav-inner">
-    <a href="/" class="nav-logo">
+    <a href="{{ route('home') }}" class="nav-logo">
       <span class="logo-pool">POOL</span><span class="logo-school">SCHOOL</span>
     </a>
     <button class="nav-toggle" id="navToggle" aria-label="Menu openen">
       <span></span><span></span><span></span>
     </button>
     <ul class="nav-links" id="navLinks">
-      <li><a href="/">Home</a></li>
-      <li><a href="/lessen">De Lessen</a></li>
-      <li><a href="/over">Over Mij</a></li>
-      <li><a href="/contact">Contact</a></li>
-      <li><a href="/inschrijven" class="btn-nav">Inschrijven</a></li>
+      <li><a href="{{ route('home') }}">Home</a></li>
+      <li><a href="{{ route('lessen') }}">De Lessen</a></li>
+      <li><a href="{{ route('over') }}">Over Mij</a></li>
+      <li><a href="{{ route('contact') }}">Contact</a></li>
+      <li><a href="{{ route('inschrijven') }}" class="btn-nav">Inschrijven</a></li>
     </ul>
   </div>
 </nav>
@@ -68,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $path === '/contact/verstuur') {
 <main>
 
 <!-- ═══════════════════════════════════════════ HOME PAGE -->
-<div id="page-home" class="page <?php echo $activePage === 'home' ? 'active' : ''; ?>">
+<div id="page-home" class="page {{ $activePage === 'home' ? 'active' : '' }}">
 
   <section class="hero">
     <div class="container hero-inner">
@@ -77,8 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $path === '/contact/verstuur') {
         <h1>Leer zwemmen<br>met <span class="accent">plezier</span> &amp;<br>vertrouwen</h1>
         <p class="hero-sub">Pool School biedt warme, persoonlijke zwemlessen voor kinderen in groepen van maximaal 3. Elk kind verdient een veilige, zorgeloze start in het water.</p>
         <div class="hero-ctas">
-          <a href="/inschrijven" class="btn btn-primary">📋 Schrijf je in op de wachtlijst</a>
-          <a href="/lessen" class="btn btn-outline-white">Meer over de lessen</a>
+          <a href="{{ route('inschrijven') }}" class="btn btn-primary">📋 Schrijf je in op de wachtlijst</a>
+          <a href="{{ route('lessen') }}" class="btn btn-outline-white">Meer over de lessen</a>
         </div>
       </div>
       <div class="hero-visual">
@@ -110,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $path === '/contact/verstuur') {
           <p>Schrijf je in op de wachtlijst en Stephanie brengt je via e-mail op de hoogte van zodra er een plaatsje vrijkomt.</p>
         </div>
         <div class="notice-cta-wrap">
-          <a href="/inschrijven" class="btn-white">Wachtlijst →</a>
+          <a href="{{ route('inschrijven') }}" class="btn-white">Wachtlijst →</a>
         </div>
       </div>
     </div>
@@ -170,7 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $path === '/contact/verstuur') {
           <li><span class="check">✔</span> Online agenda — kies zelf je tijdstippen</li>
           <li><span class="check">✔</span> Begeleiding op maat van elk kind</li>
         </ul>
-        <a href="/inschrijven" class="btn btn-primary" style="width:100%;justify-content:center;">📋 Schrijf je in op de wachtlijst</a>
+        <a href="{{ route('inschrijven') }}" class="btn btn-primary" style="width:100%;justify-content:center;">📋 Schrijf je in op de wachtlijst</a>
         <p class="pricing-note">De lessen zijn momenteel volzet. Via de wachtlijst word je als eerste verwittigd bij beschikbare plaatsen.</p>
       </div>
     </div>
@@ -182,15 +147,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $path === '/contact/verstuur') {
       <h2 class="section-title">Geef jouw kind de gave<br>om te zwemmen</h2>
       <p>Schrijf je vandaag in op de wachtlijst. Stephanie brengt je persoonlijk op de hoogte zodra er een plaatsje beschikbaar is.</p>
       <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
-        <a href="/inschrijven" class="btn btn-primary" style="background:white;color:var(--red)">📋 Schrijf je in</a>
-        <a href="/contact" class="btn btn-outline-white">Stel een vraag</a>
+        <a href="{{ route('inschrijven') }}" class="btn btn-primary" style="background:white;color:var(--red)">📋 Schrijf je in</a>
+        <a href="{{ route('contact') }}" class="btn btn-outline-white">Stel een vraag</a>
       </div>
     </div>
   </section>
 </div>
 
 <!-- ═══════════════════════════════════════════ LESSEN PAGE -->
-<div id="page-lessen" class="page <?php echo $activePage === 'lessen' ? 'active' : ''; ?>">
+<div id="page-lessen" class="page {{ $activePage === 'lessen' ? 'active' : '' }}">
   <div class="page-hero">
     <div class="container">
       <span class="section-label">Pool School</span>
@@ -238,13 +203,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $path === '/contact/verstuur') {
     <div class="container">
       <h2 class="section-title">Klaar om te starten?</h2>
       <p>De lessen zijn momenteel volzet, maar schrijf je in op de wachtlijst. Je bent als eerste aan de beurt!</p>
-      <a href="/inschrijven" class="btn btn-primary" style="background:white;color:var(--red)">📋 Schrijf je in op de wachtlijst</a>
+      <a href="{{ route('inschrijven') }}" class="btn btn-primary" style="background:white;color:var(--red)">📋 Schrijf je in op de wachtlijst</a>
     </div>
   </section>
 </div>
 
 <!-- ═══════════════════════════════════════════ OVER PAGE -->
-<div id="page-over" class="page <?php echo $activePage === 'over' ? 'active' : ''; ?>">
+<div id="page-over" class="page {{ $activePage === 'over' ? 'active' : '' }}">
   <div class="page-hero">
     <div class="container">
       <span class="section-label">Pool School</span>
@@ -287,14 +252,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $path === '/contact/verstuur') {
           <p style="font-size:16px;line-height:1.8;color:var(--text);margin-bottom:20px">Van zodra ik meer zicht heb op beschikbare plaatsen, breng ik je via e-mail op de hoogte."</p>
           <div class="signature">Veel liefs, Stephanie 💙</div>
         </div>
-        <div style="margin-top:32px"><a href="/inschrijven" class="btn btn-primary">📋 Schrijf je in op de wachtlijst</a></div>
+        <div style="margin-top:32px"><a href="{{ route('inschrijven') }}" class="btn btn-primary">📋 Schrijf je in op de wachtlijst</a></div>
       </div>
     </div>
   </section>
 </div>
 
 <!-- ═══════════════════════════════════════════ CONTACT PAGE -->
-<div id="page-contact" class="page <?php echo $activePage === 'contact' ? 'active' : ''; ?>">
+<div id="page-contact" class="page {{ $activePage === 'contact' ? 'active' : '' }}">
   <div class="page-hero">
     <div class="container">
       <span class="section-label">Neem contact op</span>
@@ -319,7 +284,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $path === '/contact/verstuur') {
           </div>
           <div class="contact-info-item">
             <div class="contact-info-icon">📋</div>
-            <div class="contact-info-text"><h4>Wachtlijst</h4><p>De lessen zijn momenteel volzet.</p><a href="/inschrijven" style="color:var(--red);font-weight:800">→ Schrijf je in op de wachtlijst</a></div>
+            <div class="contact-info-text"><h4>Wachtlijst</h4><p>De lessen zijn momenteel volzet.</p><a href="{{ route('inschrijven') }}" style="color:var(--red);font-weight:800">→ Schrijf je in op de wachtlijst</a></div>
           </div>
           <div class="contact-info-item">
             <div class="contact-info-icon">📍</div>
@@ -328,27 +293,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $path === '/contact/verstuur') {
         </div>
         <div class="contact-form">
           <h3 style="font-family:'Fredoka One',cursive;font-size:24px;color:var(--navy);margin-bottom:24px">Stuur een bericht</h3>
-          <?php if ($success): ?>
-            <div class="form-success">Bedankt voor je bericht! Stephanie neemt spoedig contact met je op.</div>
-          <?php endif; ?>
-          <?php if ($hasErrors): ?>
+          @if (session('success'))
+            <div class="form-success">{{ session('success') }}</div>
+          @endif
+          @if ($errors->any())
             <div class="form-errors">Controleer de velden en probeer opnieuw.</div>
-          <?php endif; ?>
-          <form method="POST" action="/contact/verstuur">
-            <input type="hidden" name="_token" value="static-form">
-<div class="form-row">
-              <div class="form-group"><label for="voornaam">Voornaam</label><input id="voornaam" name="voornaam" type="text" value="<?php echo htmlspecialchars($old['voornaam'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" placeholder="Jouw voornaam" required></div>
-              <div class="form-group"><label for="achternaam">Achternaam</label><input id="achternaam" name="achternaam" type="text" value="<?php echo htmlspecialchars($old['achternaam'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" placeholder="Jouw achternaam" required></div>
+          @endif
+          <form method="POST" action="{{ route('contact.verstuur') }}">
+            @csrf
+            <div class="form-row">
+              <div class="form-group"><label for="voornaam">Voornaam</label><input id="voornaam" name="voornaam" type="text" value="{{ old('voornaam') }}" placeholder="Jouw voornaam" required></div>
+              <div class="form-group"><label for="achternaam">Achternaam</label><input id="achternaam" name="achternaam" type="text" value="{{ old('achternaam') }}" placeholder="Jouw achternaam" required></div>
             </div>
-            <div class="form-group"><label for="email">E-mailadres</label><input id="email" name="email" type="email" value="<?php echo htmlspecialchars($old['email'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" placeholder="jouw@email.be" required></div>
+            <div class="form-group"><label for="email">E-mailadres</label><input id="email" name="email" type="email" value="{{ old('email') }}" placeholder="jouw@email.be" required></div>
             <div class="form-group"><label for="onderwerp">Onderwerp</label>
               <select id="onderwerp" name="onderwerp" required>
-                <?php foreach (['Vraag over de wachtlijst', 'Vraag over de lessen', 'Vraag over prijzen', 'Andere'] as $subject): ?>
-                  <option value="<?php echo htmlspecialchars($subject, ENT_QUOTES, 'UTF-8'); ?>" <?php echo (($old['onderwerp'] ?? '') === $subject) ? 'selected' : ''; ?>><?php echo htmlspecialchars($subject, ENT_QUOTES, 'UTF-8'); ?></option>
-                <?php endforeach; ?>
+                @foreach (['Vraag over de wachtlijst', 'Vraag over de lessen', 'Vraag over prijzen', 'Andere'] as $subject)
+                  <option value="{{ $subject }}" @selected(old('onderwerp') === $subject)>{{ $subject }}</option>
+                @endforeach
               </select>
             </div>
-            <div class="form-group"><label for="bericht">Bericht</label><textarea id="bericht" name="bericht" placeholder="Stel hier jouw vraag..." required><?php echo htmlspecialchars($old['bericht'] ?? '', ENT_QUOTES, 'UTF-8'); ?></textarea></div>
+            <div class="form-group"><label for="bericht">Bericht</label><textarea id="bericht" name="bericht" placeholder="Stel hier jouw vraag..." required>{{ old('bericht') }}</textarea></div>
             <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Verstuur bericht</button>
           </form>
         </div>
@@ -358,7 +323,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $path === '/contact/verstuur') {
 </div>
 
 <!-- ═══════════════════════════════════════════ INSCHRIJVEN PAGE -->
-<div id="page-inschrijven" class="page <?php echo $activePage === 'inschrijven' ? 'active' : ''; ?>">
+<div id="page-inschrijven" class="page {{ $activePage === 'inschrijven' ? 'active' : '' }}">
   <div class="page-hero">
     <div class="container">
       <span class="section-label">Inschrijven</span>
@@ -408,7 +373,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $path === '/contact/verstuur') {
 <footer class="footer">
   <div class="container footer-inner">
     <div class="footer-brand">
-      <a href="/" class="footer-logo">
+      <a href="{{ route('home') }}" class="footer-logo">
         <span class="logo-pool">POOL</span><span class="logo-school">SCHOOL</span>
       </a>
       <p class="footer-tagline">Privé Zwemles</p>
@@ -417,10 +382,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $path === '/contact/verstuur') {
     <div class="footer-links">
       <h4>Pagina's</h4>
       <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/lessen">De Lessen</a></li>
-        <li><a href="/over">Over Mij</a></li>
-        <li><a href="/contact">Contact</a></li>
+        <li><a href="{{ route('home') }}">Home</a></li>
+        <li><a href="{{ route('lessen') }}">De Lessen</a></li>
+        <li><a href="{{ route('over') }}">Over Mij</a></li>
+        <li><a href="{{ route('contact') }}">Contact</a></li>
       </ul>
     </div>
     <div class="footer-contact">
@@ -439,6 +404,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $path === '/contact/verstuur') {
   <div class="footer-bottom"><p>&copy; 2025 Pool School — Privé Zwemles. Alle rechten voorbehouden.</p></div>
 </footer>
 
-<script src="/js/poolschool-app.js"></script>
+<script src="{{ asset('js/poolschool-app.js') }}"></script>
 </body>
 </html>
